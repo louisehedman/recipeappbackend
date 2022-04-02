@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\RecipeListController;
 
 
 /*
@@ -28,5 +29,10 @@ Route::group([
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/refresh', [AuthController::class, 'refresh']);
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);
+    Route::get('/recipe-lists', [RecipeListController::class, 'index']);
+    Route::get('/recipe-lists/{id}', [RecipeListController::class, 'get']);
+    Route::post('/recipe-lists', [RecipeListController::class, 'store']);
+    Route::put('/recipe-lists/{id}', [RecipeListController::class, 'update']);
+    Route::delete('/recipe-lists/{id}', [RecipeListController::class, 'delete']);
 });
