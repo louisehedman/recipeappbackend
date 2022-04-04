@@ -35,8 +35,13 @@ class RecipeListController extends Controller
     }
 
     public function store(Request $request){
+        $input = $request->validate([
+            'name' => 'required|string'
+        ]);
         if (auth::user()) {
-            $recipeList = RecipeList::create(['name' => $request->input('name'), 'user_id' => auth::user()->id]);
+            $recipeList = RecipeList::create([
+                'name' => $input['name'], 
+                'user_id' => auth::user()->id]);
             return response()->json([
                 'success' => true,
                 'recipeList' => $recipeList
