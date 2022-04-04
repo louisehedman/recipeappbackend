@@ -39,32 +39,10 @@ class RecipeListController extends Controller
     }
 
     public function store(Request $request){
-        if (auth::user()){
-            $recipeList = new RecipeList();
-            $recipeList->name = $request->name;
-            $recipeList->user_id = $request->auth::user()->id;
-            $recipeList->save();
-            return response()->json([
-                'message' => 'List created'
-            ], 201);
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'Sorry, the recipe list could not be created'
-            ]);
-        }
-    }
-
-    /*public function store(Request $request){
         $input = $request->all();
-            $request->validate([
-                'user_id' => 'required',
-                'name' => 'required'
-            ]);
-
         if (auth::user()) {
             $recipeList = RecipeList::create([
-                'name' => $input['name'],
+                'name' => $request->input('name'),
                 'user_id' => auth::user()->id
             ]);
             return response()->json([
@@ -77,7 +55,7 @@ class RecipeListController extends Controller
                 'message' => 'Sorry, the recipe list could not be created'
             ]);
         }
-    }*/
+    }
 
     public function update(Request $request, $id) {
         if (auth::user()) {
