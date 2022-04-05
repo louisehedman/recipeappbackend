@@ -45,10 +45,7 @@ class RecipeListController extends Controller
                 'name' => $input['name'],
                 'user_id' => auth::user()->id
             ]);
-            return response()->json([
-                'success' => true,
-                'recipeList' => $recipeList
-            ]);
+            return response ($recipeList, 200);
         } else {
             return response()->json([
                 'success' => false,
