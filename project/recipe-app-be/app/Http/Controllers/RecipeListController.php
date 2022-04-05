@@ -9,9 +9,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RecipeListController extends Controller
 {
-    public function __construct() {
-
-    }
 
     public function index() {
         if (Auth::user()) {
@@ -39,10 +36,13 @@ class RecipeListController extends Controller
     }
 
     public function store(Request $request){
-        $input = $request->all();
+        $input = $request->validate([
+            'name' => 'required|string'
+
+        ]);
         if (auth::user()) {
             $recipeList = RecipeList::create([
-                'name' => $request->input('name'),
+                'name' => $input['name'],
                 'user_id' => auth::user()->id
             ]);
             return response()->json([
