@@ -12,7 +12,7 @@ class RecipeController extends Controller {
     public function index(RecipeList $recipeList)
     {
         if (auth::user()) {
-            $recipes = $id = Auth::user()->id;
+            $id = Auth::user()->id;
             $recipeLists = RecipeList::where('user_id', $id)->get();
             $recipes = $recipeLists->recipes;
 
