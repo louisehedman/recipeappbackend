@@ -93,7 +93,8 @@ class RecipeListController extends Controller
         $recipeId = $request->recipe_api_id;
         $recipeList_id = RecipeList::find($id);
 
-        if (RecipeList::where('recipeList_id', $recipeList_id)->where('recipe_api_id', $recipeId)->first()) {
+        if (auth::user()) {
+        if (RecipeList::where('recipe_list_id', $recipeList_id)->where('recipe_api_id', $recipeId)->first()) {
             return response()->json([
                 'success' => false,
                 'message' => 'This recipe is already in this list'
@@ -112,6 +113,7 @@ class RecipeListController extends Controller
                 'success' => true,
                 'message' => 'This recipe has been added successfully'
             ]);
+        }
         }
     }
 
