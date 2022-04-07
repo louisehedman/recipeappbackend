@@ -13,7 +13,7 @@ class RecipeController extends Controller {
     {
         if (auth::user()) {
             $id = Auth::user()->id;
-            $recipes = RecipeList::where('user_id', $id)->get();
+            $recipes = Recipe::where('user_id', $id)->get();
 
             if ($recipes->isEmpty()) {
                 return response()->json([
