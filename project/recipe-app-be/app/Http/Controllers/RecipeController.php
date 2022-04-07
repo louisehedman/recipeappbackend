@@ -12,8 +12,8 @@ class RecipeController extends Controller {
     public function index(RecipeList $recipeList)
     {
         if (auth::user()) {
-            $id = Auth::user()->id;
-            $recipes = Recipe::where('user_id', $id)->get();
+            //$id = RecipeList::()->id;
+            $recipes = Recipe::where('recipe_list_id', $recipeList)->get();
 
             if ($recipes->isEmpty()) {
                 return response()->json([
