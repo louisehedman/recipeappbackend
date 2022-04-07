@@ -51,13 +51,13 @@ class RecipeController extends Controller {
             }
 
             // find given recipe in table 'recipes'
-            $recipe = Recipe::where('recipe_api_id', $request->api_id)->first();
+            $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
     
             // if recipe doesn't exist in 'recipes', create it
             if (!$recipe) {
                 $recipe = $recipeList->recipes()->create([
                     'title' => $request->title,
-                    'recipe_api_id' => $request->api_id,
+                    'recipe_api_id' => $request->recipe_api_id,
                     'img' => $request->img
                 ]);
             } else {
