@@ -62,7 +62,7 @@ class RecipeListController extends Controller
 
         if (auth::user()) {
             
-            if (Recipe::where('recipe_list_id', $recipeList)->where('recipe_api_id', $recipe)->first()) {
+            if (RecipeList::where('recipe_list_id', $recipeList)->where('recipe_api_id', $recipe)->first()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'This recipe is already in this list'
