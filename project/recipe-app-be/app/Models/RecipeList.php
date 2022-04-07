@@ -11,21 +11,21 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class RecipeList extends Model
 {
     use HasFactory;
+    protected $table = 'recipe_lists';
+    public $timestamps = true;
+
     protected $fillable = [
-        'name',
-        'user_id'
+        'name'
+        //'user_id'
     ];
 
-    /*public function user(){
-        return $this->belongsTo(User::class);
-    }*/
-
-    public function recipe()
-    {
-        return $this->hasMany(RecipeId::class);
-    }
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function recipes()
+    {
+        return $this->belongsToMany(Recipe::class, 'recipe_lists_recipes', 'recipe_list_id', 'recipe_id');
     }
 }
