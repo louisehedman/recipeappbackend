@@ -14,6 +14,8 @@ class RecipeController extends Controller {
 
         // check if given list belongs to current user
         if (auth::user()) {
+            $id = Auth::user()->id;
+            $recipeList = RecipeList::where('user_id', $id);
             $recipes = $recipeList->recipes;
 
             if ($recipes->isEmpty()) {
@@ -39,6 +41,8 @@ class RecipeController extends Controller {
         
         // check if given list belongs to current user
         if (auth::user()) {
+            $id = Auth::user()->id;
+            $recipeList = RecipeList::where('user_id', $id);
             $validator = Validator::make($request->only('recipe_api_id', 'title', 'img'), [
                 'title' => 'required|string',
                 'recipe_api_id' => 'required|numeric',
@@ -141,10 +145,8 @@ class RecipeController extends Controller {
 
     public function destroy(RecipeList $recipeList, Recipe $recipe)
     {
-        $user = $recipeList->user;
-
         // check if given list belongs to current user
-        if ($user->id === auth()->user()->id) {
+        if (auth::user()) {
             // check if given recipe is attach to given list, if so detach it
             if ($recipeList->recipes()->where('recipe_id', $recipe->id)->doesntExist()) {
                 return response()->json([
