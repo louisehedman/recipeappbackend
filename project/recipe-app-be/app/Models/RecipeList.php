@@ -15,8 +15,8 @@ class RecipeList extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'name'
-        //'user_id'
+        'name',
+        'user_id'
     ];
 
     public function user()
