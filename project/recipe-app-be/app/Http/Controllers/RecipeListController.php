@@ -59,11 +59,13 @@ class RecipeListController extends Controller
 
     public function addRecipe(Request $request, RecipeList $recipeList, $id)
     {
+        if (auth::user()) {
+        
         $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
         //$recipe = $request->recipe_api_id;
         $recipeList = RecipeList::find($id);
 
-        if (auth::user()) {
+    
             
             if ($recipeList->recipe()->where('recipe_api_id', $recipe->recipe_api_id)->exists()) {
             //(RecipeList::where('recipe_list_id', $recipeList)->where('recipe_api_id', $recipe)->first()) {
