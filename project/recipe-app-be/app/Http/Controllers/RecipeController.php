@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller {
     public function index(RecipeList $recipeList)
     {
-        $userListsId = RecipeList::where('user_id', auth::user()->id);
-
-        if ($userListsId === auth::user()->id) {
-            $recipes = $recipeList->recipes;
+        if (auth::user()) {
+            $recipes = $id = Auth::user()->id;
+            $recipeLists = RecipeList::where('user_id', $id)->get();
+            $recipes = $recipeLists->recipes;
 
 
             if ($recipes->isEmpty()) {
