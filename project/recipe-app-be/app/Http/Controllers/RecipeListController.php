@@ -67,13 +67,13 @@ class RecipeListController extends Controller
 
     
             
-            if ($recipeList->recipe()->where('recipe_api_id', $recipe->recipe_api_id)->exists()) {
+            /*if ($recipeList->recipe()->where('recipe_api_id', $recipe->recipe_api_id)->exists()) {
             //(RecipeList::where('recipe_list_id', $recipeList)->where('recipe_api_id', $recipe)->first()) {
                 return response()->json([
                     'success' => false,
                     'message' => 'This recipe is already in this list'
-                ]);
-            } else {
+                ]);*/
+            //} else {
                 $input = $request->validate([
                     'recipe_api_id' => 'required|number',
                     'recipe_name' => 'required|string',
@@ -86,7 +86,7 @@ class RecipeListController extends Controller
                     'success' => true,
                     'message' => 'This recipe has been added successfully'
                 ]);
-            }
+            //}
         }
      
     }
