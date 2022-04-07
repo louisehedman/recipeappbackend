@@ -13,7 +13,7 @@ class RecipeController extends Controller {
     {
         if (auth::user()) {
             //$id = RecipeList::()->id;
-            $recipes = $recipe->recipeLists();
+            $recipes = $recipe->recipeLists;
 
             if ($recipes->isEmpty()) {
                 return response()->json([
