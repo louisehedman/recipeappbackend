@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateRecipeListsTable extends Migration
+class CreateRecipesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateRecipeListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('recipe_lists', function (Blueprint $table) {
+        Schema::create('recipes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('recipe_name');
+            $table->unsignedBigInteger('recipe_api_id')->unique();
+            $table->string('img')->nullable();
+            $table->foreignId('recipe_list_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
@@ -28,6 +31,6 @@ class CreateRecipeListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('recipe_lists');
+        Schema::dropIfExists('recipes');
     }
 }

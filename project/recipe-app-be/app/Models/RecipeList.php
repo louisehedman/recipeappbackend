@@ -12,7 +12,6 @@ class RecipeList extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'recipe_id',
         'user_id'
     ];
 

@@ -35,4 +35,5 @@ Route::group([
     Route::post('/recipe-lists', [RecipeListController::class, 'store']);
     Route::put('/recipe-lists/{id}', [RecipeListController::class, 'update']);
     Route::delete('/recipe-lists/{id}', [RecipeListController::class, 'delete']);
+    Route::post('recipe-list/{id}', [RecipeListController::class, 'addRecipe']);
 });

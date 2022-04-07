@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\RecipeList; 
 use App\Models\User;
+use App\Models\Recipe;
 use Illuminate\Support\Facades\Validator;
 
 class RecipeListController extends Controller
@@ -53,6 +54,38 @@ class RecipeListController extends Controller
             ]);
         }
     }
+
+    public function addRecipe(Request $request, $id)
+    {
+        $recipe = $request->recipe_api_id;
+        $recipeList = RecipeList::find($id);
+
+        if (auth::user()) {
+            
+            if (Recipe::where('recipe_list_id', $recipeList)->where('recipe_api_id', $recipe)->first()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'This recipe is already in this list'
+                ]);
+            } else {
+                $input = $request->all();
+                $request->validate([
+                    'recipe_api_id' => 'required|number',
+                    'recipe_name' => 'required|string',
+                    'recipe_list_id' => 'required|numeric',
+                    'img' => 'nullable|string|url'
+                ]);
+
+                Recipe::create($input);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'This recipe has been added successfully'
+                ]);
+            }
+        }
+     
+    }
+
 
     public function update(Request $request, $id) {
         if (auth::user()) {
