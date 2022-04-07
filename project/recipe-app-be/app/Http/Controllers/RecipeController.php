@@ -11,13 +11,6 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller {
     public function index(Recipe $recipe, RecipeList $recipeList)
     {
-        /*$user = $recipeList->user;
-        $recipes = $recipeList->recipes;
-        
-        if (auth::user()) {
-            //$id = RecipeList::()->id;
-            $recipes = $recipe->recipeLists;*/
-
             $user = $recipeList->user;
 
             if ($user->id === auth::user()->id) {
@@ -44,7 +37,10 @@ class RecipeController extends Controller {
 
     public function store(Request $request, RecipeList $recipeList) {
         
-        if (auth::user()) {
+        $user = $recipeList->user;
+
+        if ($user->id === auth()->user()->id) {
+        
             $validator = Validator::make($request->only('recipe_api_id', 'title', 'img'), [
                 'title' => 'required|string',
                 'recipe_api_id' => 'required|numeric',
