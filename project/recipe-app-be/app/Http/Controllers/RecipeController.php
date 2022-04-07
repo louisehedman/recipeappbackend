@@ -36,9 +36,10 @@ class RecipeController extends Controller {
     }
 
     public function store(Request $request, RecipeList $recipeList) {
+        $user = $recipeList->user;
 
         // check if given list belongs to current user
-        if (auth::user()) {
+        if ($user->id === auth::user()->id) {
             $validator = Validator::make($request->only('recipe_api_id', 'title', 'img'), [
                 'title' => 'required|string',
                 'recipe_api_id' => 'required|numeric',
