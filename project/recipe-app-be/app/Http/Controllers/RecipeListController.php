@@ -57,15 +57,15 @@ class RecipeListController extends Controller
         }
     }
 
-    public function addRecipe(Request $request, RecipeList $recipeList, Recipe $recipe, $id)
+    /*public function addRecipe(Request $request, RecipeList $recipeList, $id)
     {
-        //$recipe = Recipe::where('list_api_id', $request->list_api_id)->first();
-        //$recipe = $request->recipe_api_id;
+        $recipe = Recipe::where('list_api_id', $request->list_api_id)->first();
+        $recipe = $request->recipe_api_id;
         $recipeList = RecipeList::find($id);
 
         if (auth::user()) {
             
-            if ($recipeList->recipe()->where('recipe_api_id', $recipe->id)->exists()) {
+            if ($recipeList->recipe()->where('recipe_api_id', $recipe->recipe_api_id)->exists()) {
             //(RecipeList::where('recipe_list_id', $recipeList)->where('recipe_api_id', $recipe)->first()) {
                 return response()->json([
                     'success' => false,
@@ -87,6 +87,32 @@ class RecipeListController extends Controller
             }
         }
      
+    }*/
+
+    public function addRecipe(Request $request, $id) {
+        $recipeId = $request->recipe_api_id;
+        $recipeList_id = RecipeList::find($id);
+
+        if (RecipeList::where('recipeList_id', $recipeList_id)->where('recipe_api_id', $recipeId)->first()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'This recipe is already in this list'
+            ]);
+        } else {
+            $input = $request->all();
+            $request->validate([
+                'recipe_api_id' => 'required|number',
+                'recipe_name' => 'required|string',
+                'recipe_list_id' => 'required|numeric',
+                'img' => 'nullable|string|url'    
+            ]);
+
+            Recipe::create($input);
+            return response()->json([
+                'success' => true,
+                'message' => 'This recipe has been added successfully'
+            ]);
+        }
     }
 
 
