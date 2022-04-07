@@ -22,7 +22,7 @@ class RecipeList extends Model
 
     public function recipe()
     {
-        return $this->hasMany(Recipe::class);
+        return $this->hasMany(RecipeId::class);
     }
     public function user()
     {

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Recipe;
+use App\Models\RecipeId;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Http\Request;
 use App\Models\RecipeList; 
@@ -61,7 +61,7 @@ class RecipeListController extends Controller
     {
         if (auth::user()) {
         
-        $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
+        $recipe = RecipeId::where('recipe_api_id', $request->recipe_api_id)->first();
         //$recipe = $request->recipe_api_id;
         $recipeList = RecipeList::find($id);
 
@@ -81,7 +81,7 @@ class RecipeListController extends Controller
                     'img' => 'nullable|string|url'
                 ]);
 
-                Recipe::create($input);
+                RecipeId::create($input);
                 return response()->json([
                     'success' => true,
                     'message' => 'This recipe has been added successfully'
