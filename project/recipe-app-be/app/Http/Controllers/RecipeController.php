@@ -13,7 +13,7 @@ class RecipeController extends Controller {
     {
         $recipeList = RecipeList::where('user_id', auth::user()->id);
 
-        if (auth::user()) {
+        if (auth::user()->id) {
             $recipes = $recipeList->recipes;
 
 
