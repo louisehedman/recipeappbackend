@@ -9,7 +9,7 @@ use App\Models\RecipeList;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller {
-    public function index(Recipe $recipe, RecipeList $recipeList)
+    public function index(RecipeList $recipeList)
     {
             $user = $recipeList->user;
 
@@ -19,7 +19,7 @@ class RecipeController extends Controller {
             if ($recipes->isEmpty()) {
                 return response()->json([
                     'success' => false,
-                    'message' => 'This list does not have any recipes yet.'
+                    'message' => 'This list is empty'
                 ], 200);
             } else {
                 return response()->json([
@@ -30,12 +30,12 @@ class RecipeController extends Controller {
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'No recipe list with this id belongs to current user.'
+                'message' => 'Could not find list'
             ], 401);
         }
     }
 
-    public function store(Request $request, RecipeList $recipeList) {
+    public function addRecipe(Request $request, RecipeList $recipeList) {
         
         $user = $recipeList->user;
 
@@ -48,7 +48,7 @@ class RecipeController extends Controller {
             ]);
 
             if ($validator->fails()) {
-                return response()->json($validator->errors(), 200);
+                return response()->json($validator->errors());
             }
 
             $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
@@ -64,7 +64,7 @@ class RecipeController extends Controller {
                 if ($recipeList->recipes()->where('recipe_id', $recipe->id)->exists()) {
                     return response()->json([
                         'success' => false,
-                        'message' => 'The recipe is already in this list.'
+                        'message' => 'This recipe does already exist in this list.'
                     ], 200);
                 } else {
                     $recipeList->recipes()->attach($recipe->id);
@@ -73,70 +73,23 @@ class RecipeController extends Controller {
 
             return response()->json([
                 'success' => true,
-                'message' => 'Recipe successfully saved to list.',
+                'message' => 'This recipe was successfully saved to list.',
                 'recipe' => $recipe
             ], 201);
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'No recipe list with this id belongs to current user.'
+                'message' => 'Could not find recipe list.'
             ], 401);
         }
     }
 
-    public function checkIfExists(RecipeList $recipeList, $apiId)
-    {
-        if (auth::user()) {
 
-            $recipe = Recipe::where('api_id', $apiId)->first();
+    public function delete(RecipeList $recipeList, Recipe $recipe) {
+        
+        $user = $recipeList->user;
 
-            if (!$recipe) {
-                return response()->json([
-                    'success' => true,
-                    'exists' => false,
-                    'message' => 'This recipe does not exist in any list.'
-                ], 200);
-    
-            } else {
-                if ($recipeList->recipes()->where('recipe_id', $recipe->id)->doesntExist()) {
-                    return response()->json([
-                        'success' => true,
-                        'exists' => false,
-                        'message' => 'This recipe does not exist in any of this users lists.'
-                    ], 200);
-
-                } else {
-                    return response()->json([
-                        'success' => true,
-                        'exists' => true,
-                        'recipe' => $recipe
-                    ], 200);
-                }
-            }
-
-        } else {
-            return response()->json([
-                'success' => false,
-                'message' => 'No recipe list with this id belongs to current user.'
-            ], 401);
-        }
-    }
-
-    public function listsWithRecipe($recipeApiId)
-    {
-        $recipeList = auth::user()->recipeList->whereHas('recipes', function ($query) use ($recipeApiId) {
-            $query->where('recipe_api_id', '=', intval($recipeApiId));
-        })->get();
-
-        return response()->json([
-            'success' => true,
-            'list' => $recipeList
-        ], 200);
-    }
-
-    public function destroy(RecipeList $recipeList, Recipe $recipe)
-    {
-        if (auth::user()) {
+        if ($user->id === auth()->user()->id) {
             if ($recipeList->recipes()->where('recipe_id', $recipe->id)->doesntExist()) {
                 return response()->json([
                     'success' => false,
@@ -147,13 +100,13 @@ class RecipeController extends Controller {
 
                 return response()->json([
                     'success' => true,
-                    'message' => 'Recipe successfully removed from list'
+                    'message' => 'This recipe was successfully deleted from list'
                 ], 200);
             }
         } else {
             return response()->json([
                 'success' => false,
-                'message' => 'No recipe list with this id belongs to current user.'
+                'message' => 'Could not find this recipe list.'
             ], 401);
         }
     }
