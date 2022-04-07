@@ -18,8 +18,8 @@ class CreateRecipesTable extends Migration
             $table->string('recipe_name');
             $table->unsignedBigInteger('recipe_api_id')->unique();
             $table->string('img')->nullable();
-            $table->foreignId('recipe_list_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            //$table->foreignId('recipe_list_id')->constrained();
+            //$table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }

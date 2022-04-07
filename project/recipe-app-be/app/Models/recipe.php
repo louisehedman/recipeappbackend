@@ -14,4 +14,9 @@ class Recipe extends Model
     'recipe_list_id',
     'img'
     ];
+
+    public function recipeList()
+    {
+        return $this->belongsTo(RecipeList::class);
+    }
 }
