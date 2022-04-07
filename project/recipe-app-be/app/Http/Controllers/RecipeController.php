@@ -14,8 +14,8 @@ class RecipeController extends Controller {
 
         // check if given list belongs to current user
         if (auth::user()) {
-            $id = Auth::user()->id;
-            $recipeList = RecipeList::where('user_id', $id);
+            //$id = Auth::user()->id;
+            //$recipeList = RecipeList::where('user_id', $id);
             $recipes = $recipeList->recipes;
 
             if ($recipes->isEmpty()) {
