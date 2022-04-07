@@ -57,10 +57,10 @@ class RecipeListController extends Controller
         }
     }
 
-    /*public function addRecipe(Request $request, RecipeList $recipeList, $id)
+    public function addRecipe(Request $request, RecipeList $recipeList, $id)
     {
-        $recipe = Recipe::where('list_api_id', $request->list_api_id)->first();
-        $recipe = $request->recipe_api_id;
+        $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
+        //$recipe = $request->recipe_api_id;
         $recipeList = RecipeList::find($id);
 
         if (auth::user()) {
@@ -87,14 +87,16 @@ class RecipeListController extends Controller
             }
         }
      
-    }*/
+    }
 
-    public function addRecipe(Request $request, $id) {
+    /*public function addRecipe(Request $request, $id) {
         $recipeId = $request->recipe_api_id;
         $recipeList_id = RecipeList::find($id);
+        $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
+
 
         if (auth::user()) {
-        if (RecipeList::where('recipe_list_id', $recipeList_id)->where('recipe_api_id', $recipeId)->first()) {
+        if (Recipe::where('recipe_list_id', $recipeList_id)->where('recipe_api_id', $recipeId)->first()) {
             return response()->json([
                 'success' => false,
                 'message' => 'This recipe is already in this list'
@@ -130,7 +132,7 @@ class RecipeListController extends Controller
                 'message' => 'Sorry, the list name could not be updated'
             ]);
         }
-    }
+    }*/
 
     public function delete($id) {
         if (auth::user()){
