@@ -9,11 +9,11 @@ use App\Models\RecipeList;
 use Illuminate\Http\Request;
 
 class RecipeController extends Controller {
-    public function index(RecipeList $recipeList)
+    public function index(Recipe $recipe, RecipeList $recipeList)
     {
         if (auth::user()) {
             //$id = RecipeList::()->id;
-            $recipes = Recipe::where('recipe_list_id', $recipeList)->get();
+            $recipes = $recipe->recipeLists();
 
             if ($recipes->isEmpty()) {
                 return response()->json([
