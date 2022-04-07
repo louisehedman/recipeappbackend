@@ -11,9 +11,17 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller {
     public function index(Recipe $recipe, RecipeList $recipeList)
     {
+        /*$user = $recipeList->user;
+        $recipes = $recipeList->recipes;
+        
         if (auth::user()) {
             //$id = RecipeList::()->id;
-            $recipes = $recipe->recipeLists;
+            $recipes = $recipe->recipeLists;*/
+
+            $user = $recipeList->user;
+
+            if ($user->id === auth::user()->id) {
+            $recipes = $recipeList->recipes;
 
             if ($recipes->isEmpty()) {
                 return response()->json([
