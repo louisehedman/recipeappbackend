@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Recipe;
 use Illuminate\Support\Facades\Auth; 
 use Illuminate\Http\Request;
 use App\Models\RecipeList; 
 use App\Models\User;
-use App\Models\Recipe;
+
 use Illuminate\Support\Facades\Validator;
 
 class RecipeListController extends Controller
@@ -55,11 +57,11 @@ class RecipeListController extends Controller
         }
     }
 
-    public function addRecipe(Request $request, RecipeList $recipeList, $id)
+    public function addRecipe(Request $request, RecipeList $recipeList)
     {
         $recipe = Recipe::where('list_api_id', $request->list_api_id)->first();
         //$recipe = $request->recipe_api_id;
-        $recipeList = RecipeList::find($id);
+        $recipeList = RecipeList::find();
 
         if (auth::user()) {
             
@@ -70,8 +72,7 @@ class RecipeListController extends Controller
                     'message' => 'This recipe is already in this list'
                 ]);
             } else {
-                $input = $request->all();
-                $request->validate([
+                $input = $request->validate([
                     'recipe_api_id' => 'required|number',
                     'recipe_name' => 'required|string',
                     'recipe_list_id' => 'required|numeric',
