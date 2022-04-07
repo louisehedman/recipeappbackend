@@ -11,9 +11,9 @@ use Illuminate\Http\Request;
 class RecipeController extends Controller {
     public function index(RecipeList $recipeList)
     {
-        $recipeList = RecipeList::where('user_id', auth::user()->id)->get();
+        $userLists = RecipeList::where('user_id', auth::user()->id)->get();
 
-        if (auth::user()) {
+        if ($userLists->id === auth::user()) {
             $recipes = $recipeList->recipes;
 
 
