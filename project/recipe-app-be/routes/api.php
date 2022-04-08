@@ -38,7 +38,7 @@ Route::group([
     Route::put('/recipe-lists/{id}', [RecipeListController::class, 'update']);
     Route::delete('/recipe-lists/{id}', [RecipeListController::class, 'delete']);
     
-    Route::get('/{recipeList}/recipes',[ RecipeController::class, 'index']); 
-    Route::post('/{recipeList}/recipes',[ RecipeController::class, 'addRecipe']); 
-    Route::delete('/{recipeList}/recipes/{recipe}',[ RecipeController::class, 'delete']); 
+    Route::get('/recipe-list/{recipeList}',[ RecipeController::class, 'index']); 
+    Route::post('/recipe-list/{recipeList}',[ RecipeController::class, 'addRecipe']); 
+    Route::delete('/recipe-list/{recipeList}/{recipe}',[ RecipeController::class, 'delete']); 
 });
