@@ -57,9 +57,17 @@ class RecipeListController extends Controller
         }
     }
 
-    public function addRecipe(Request $request, RecipeList $recipeList, $id)
-    {   
-     
+    public function update(Request $request, $id) {  
+        if (auth::user()){
+            $recipeList = RecipeList::find($id);
+            $recipeList->update($request->all());
+            return $recipeList;
+        } else {
+            return response()->json([
+                'success' => false,
+                'message' => 'Sorry, the recipe list name could not be updated'
+            ]);
+        }
     }
 
     public function delete($id) {
