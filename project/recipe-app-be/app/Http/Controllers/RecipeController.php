@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Models\User;
 use App\Models\Recipe;
 use App\Models\RecipeList;
 use Illuminate\Http\Request;
@@ -13,7 +12,7 @@ class RecipeController extends Controller
 {
     public function index(RecipeList $recipeList)
     {
-        // Validates if the list belongs to the user and get all recipes within
+        // Validate if the list belongs to the user and get all recipes within
         
         $user = $recipeList->user;
 
@@ -41,9 +40,9 @@ class RecipeController extends Controller
 
     public function addRecipe(Request $request, RecipeList $recipeList)
     {
-        /* Validates if the list belongs to the user, 
-        then checks if the recipe already exists in list, 
-        if not it gets added*/
+        /* Validate if the list belongs to the user, 
+        then check if the recipe already exists in list, 
+        if not it get added*/
 
         $user = $recipeList->user;
 
@@ -95,7 +94,7 @@ class RecipeController extends Controller
 
     public function delete(RecipeList $recipeList, Recipe $recipe)
     {
-        // Validates if the recipe list belongs to the user, then deletes selected recipe
+        // Validate if the recipe list belongs to the user, then delete selected recipe
 
         $user = $recipeList->user;
 
