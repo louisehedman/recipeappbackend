@@ -1,19 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth; 
+
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Models\Recipe;
 use App\Models\RecipeList;
 use Illuminate\Http\Request;
 
-class RecipeController extends Controller {
+class RecipeController extends Controller
+{
     public function index(RecipeList $recipeList)
     {
-            $user = $recipeList->user;
+        // Validates if the list belongs to the user and get all recipes within
+        
+        $user = $recipeList->user;
 
-            if ($user->id === auth::user()->id) {
+        if ($user->id === auth::user()->id) {
             $recipes = $recipeList->recipes;
 
             if ($recipes->isEmpty()) {
@@ -35,12 +39,16 @@ class RecipeController extends Controller {
         }
     }
 
-    public function addRecipe(Request $request, RecipeList $recipeList) {
-        
+    public function addRecipe(Request $request, RecipeList $recipeList)
+    {
+        /* Validates if the list belongs to the user, 
+        then checks if the recipe already exists in list, 
+        if not it gets added*/
+
         $user = $recipeList->user;
 
-        if ($user->id === auth()->user()->id) {
-        
+        if ($user->id === auth::user()->id) {
+
             $validator = Validator::make($request->only('recipe_api_id', 'title', 'img'), [
                 'title' => 'required|string',
                 'recipe_api_id' => 'required|numeric',
@@ -52,7 +60,7 @@ class RecipeController extends Controller {
             }
 
             $recipe = Recipe::where('recipe_api_id', $request->recipe_api_id)->first();
-    
+
             if (!$recipe) {
                 $recipe = $recipeList->recipes()->create([
                     'title' => $request->title,
@@ -85,11 +93,13 @@ class RecipeController extends Controller {
     }
 
 
-    public function delete(RecipeList $recipeList, Recipe $recipe) {
-        
+    public function delete(RecipeList $recipeList, Recipe $recipe)
+    {
+        // Validates if the recipe list belongs to the user, then deletes selected recipe
+
         $user = $recipeList->user;
 
-        if ($user->id === auth()->user()->id) {
+        if ($user->id === auth::user()->id) {
             if ($recipeList->recipes()->where('recipe_id', $recipe->id)->doesntExist()) {
                 return response()->json([
                     'success' => false,
